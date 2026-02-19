@@ -8,19 +8,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 st.title("Titanic Survival Prediction")
-
 file = st.file_uploader("Upload Titanic CSV", type="csv")
-
 if file:
-
     df = pd.read_csv(file)
-
     df['Age'] = df['Age'].fillna(df['Age'].median())
     df['Fare'] = df['Fare'].fillna(df['Fare'].median())
     df.dropna(subset=['Embarked'], inplace=True)
-
     df = pd.get_dummies(df, columns=['Sex', 'Embarked'], drop_first=True)
-
     features = [
         'Pclass',
         'Age',
@@ -48,13 +42,9 @@ if file:
     X_test = scaler.transform(X_test)
 
     model = LogisticRegression(max_iter=1000)
-
     model.fit(X_train, y_train)
-
     y_pred = model.predict(X_test)
-
     st.write(f"Accuracy: {accuracy_score(y_test, y_pred):.2f}")
-
     fig, ax = plt.subplots()
 
     sns.heatmap(
@@ -64,7 +54,5 @@ if file:
         cmap='Blues',
         ax=ax
     )
-
     ax.set_title("Confusion Matrix")
-
     st.pyplot(fig)
